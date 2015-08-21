@@ -1,0 +1,4 @@
+#!/bin/bash
+
+REPOSTRING={\"name\":\"$1\"}
+curl https://api.github.com/user/repos?access_token=REPLACE-WITH-YOUR-ACCESS-TOKEN -d $REPOSTRING
