@@ -48,13 +48,22 @@ function stopweb() {
 # already provided by the oh-my-zsh git plugin.
 
 alias gpom="git push origin master"
+alias guom="git update-from origin master"
 alias gs="git status"
 alias gpo="git push origin"
+alias guo="git update-from origin"
 alias gam="ga .; gcmsg $1"
+alias gap="git add -p"
+
+function gtouch () {
+  touch $1
+  ga $1
+}
 
 # Initializes a new directory to have all the bower & NPM stuff, called
 # in the github function below as well.
 function siteinit () {
+  cp ~/workspace/template/package.json ./
   npm install
   cp ~/workspace/template/bower.json ./
   bower install
@@ -63,16 +72,10 @@ function siteinit () {
 # Same as above, but explicitly creates and adds all the dependencies
 # to bower.json instead of copying in a premade one.
 function rawsiteinit () {
-  npm install
+  npm init
+  npm install grunt grunt-contrib-jshint grunt-contrib-nodeunit grunt-contrib-sass grunt-contrib-uglify grunt-contrib-watch matchdep -D
   bower init
-  bower install jquery --save
-  bower install jquery-ui --save
-  bower install bootstrap --save
-  bower install require-handlebars-plugin --save
-  bower install requirejs --save
-  bower install lodash --save
-  bower install firebase --save
-  bower install q#1.0.1 --save
+  bower install jquery jquery-ui bootstrap require-handlebars-plugin requirejs lodash firebase q#1.0.1 -S
 }
 
 # The mother of all functions.  This can take 2 arguments, and requires one.
@@ -102,7 +105,6 @@ function github() {
       cp ~/workspace/template/index.html ./ #copy in all the default templates
       cp ~/workspace/template/favicon.ico ./
       cp ~/workspace/template/Gruntfile.js ./lib/
-      cp ~/workspace/template/package.json ./lib/
       cp ~/workspace/template/main.js ./javascripts/
       cp ~/workspace/template/dependencies.js ./javascripts/
       touch sass/main.scss #initialise the sass main file
